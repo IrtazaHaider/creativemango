@@ -1,0 +1,38 @@
+name: Deploy React App to Hostinger
+
+on:
+  push:
+    branches:
+      - main  # Runs deployment when you push to the 'main' branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'  # Ensure this matches your local version
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Build React App
+      run: npm run build
+
+    - name: Deploy to Hostinger via SSH
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOSTINGER_HOST }}
+        username: ${{ secrets.HOSTINGER_USER }}
+        port: ${{ secrets.HOSTINGER_PORT }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd /home/${{ secrets.HOSTINGER_USER }}/public_html
+          rm -rf *
+          cp -r ~/creativemango/build/* .
+          exit
