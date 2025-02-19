@@ -26,6 +26,11 @@ jobs:
       run: npm run build
       working-directory: my-react-app
 
+    - name: Move build files to public_html
+      run: |
+      rm -rf ~/public_html/*  # Remove old files
+      mv my-react-app/build/* ~/public_html/
+
 
     - name: Deploy to Hostinger via SSH
       uses: appleboy/ssh-action@master
