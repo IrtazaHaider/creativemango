@@ -1,47 +1,33 @@
-name: Deploy React App to Hostinger
+name: Deploy to Hostinger
 
 on:
   push:
     branches:
-      - main  # Runs deployment when you push to the 'main' branch
+      - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+    - name: Checkout Repository
+      uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'  # Ensure this matches your local version
-
-    - name: Install dependencies
+    - name: Install Dependencies
       run: npm install
       working-directory: my-react-app
 
-    - name: Build the project
+    - name: Build the Project
       run: npm run build
       working-directory: my-react-app
-
-    - name: Move build files to public_html
-      run: |
-        rm -rf ~/public_html/*  # Remove old files
-        mv my-react-app/build/* ~/public_html/
-
-
 
     - name: Deploy to Hostinger via SSH
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.HOSTINGER_HOST }}
-        username: ${{ secrets.HOSTINGER_USER }}
-        port: ${{ secrets.HOSTINGER_PORT }}
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 65002
         script: |
-          cd /home/${{ secrets.HOSTINGER_USER }}/public_html
-          rm -rf *
-          cp -r ~/creativemango/build/* .
-          exit
+          rm -rf ~/domains/bisque-porcupine-621798.hostingersite.com/public_html/*
+          mv ~/my-react-app/build/* ~/domains/bisque-porcupine-621798.hostingersite.com/public_html/
