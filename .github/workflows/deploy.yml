@@ -21,18 +21,17 @@ jobs:
       run: npm run build
       working-directory: my-react-app
 
+    # 🔹 Debugging step to check if SSH secrets are available
     - name: Debug Secrets
-      run: echo "SSH_HOST is set to ${{ secrets.SSH_HOST }}"
-
-
+      run: echo "SSH_HOST=${{ secrets.SSH_HOST }}; SSH_USER=${{ secrets.SSH_USER }}"
 
     - name: Deploy to Hostinger via SSH
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.SSH_HOST }}
+        host: "45.84.206.59"
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 65002
         script: |
           rm -rf ~/domains/bisque-porcupine-621798.hostingersite.com/public_html/*
-          cp -r ~/my-react-app/build/* ~/domains/bisque-porcupine-621798.hostingersite.com/public_html/
+          cp -r my-react-app/build/* ~/domains/bisque-porcupine-621798.hostingersite.com/public_html/
