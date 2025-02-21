@@ -22,7 +22,8 @@ jobs:
       working-directory: my-react-app
 
     - name: Debug Secrets
-      run: echo "SSH_HOST is set to: ${{ secrets.SSH_HOST }}"
+      run: echo "SSH_HOST is set to ${{ secrets.SSH_HOST }}"
+
 
 
     - name: Deploy to Hostinger via SSH
