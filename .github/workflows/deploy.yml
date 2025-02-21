@@ -24,10 +24,11 @@ jobs:
     - name: Deploy to Hostinger via SSH
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 65002
-        script: |
-          rm -rf ~/domains/bisque-porcupine-621798.hostingersite.com/public_html/*
-          mv ~/my-react-app/build/* ~/domains/bisque-porcupine-621798.hostingersite.com/public_html/
+      host: ${{ secrets.SSH_HOST }}  # Ensure this is correctly set
+      username: ${{ secrets.SSH_USER }}
+      key: ${{ secrets.SSH_PRIVATE_KEY }}
+      port: 65002
+      script: |
+        rm -rf ~/domains/bisque-porcupine-621798.hostingersite.com/public_html/*
+        mv ~/my-react-app/build/* ~/domains/bisque-porcupine-621798.hostingersite.com/public_html/
+
