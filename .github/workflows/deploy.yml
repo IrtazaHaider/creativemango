@@ -30,4 +30,4 @@ jobs:
         port: 65002
         script: |
           rm -rf ~/domains/bisque-porcupine-621798.hostingersite.com/public_html/*
-          mv ~/my-react-app/build/* ~/domains/bisque-porcupine-621798.hostingersite.com/public_html/
+          cp -r ~/my-react-app/build/* ~/domains/bisque-porcupine-621798.hostingersite.com/public_html/
